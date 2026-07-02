@@ -137,6 +137,7 @@ body::before {
   gap: 40px;
   align-items: flex-start;
 }
+
 .view-app.is-active { display: grid; }
 
 .phone {
@@ -149,12 +150,14 @@ body::before {
   position: relative;
   transition: all 0.3s ease;
 }
+
 .phone-notch {
   width: 90px; height: 6px;
   background: var(--line-strong);
   border-radius: 4px;
   margin: 0 auto 10px;
 }
+
 .phone-screen {
   background: linear-gradient(180deg, var(--panel), var(--panel-2) 75%);
   border-radius: 26px;
@@ -166,13 +169,28 @@ body::before {
   flex-direction: column;
 }
 
+.phone-screen::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background-image: url('https://images.unsplash.com/photo-1544829099-b9a0c07fad1a?auto=format&fit=crop&w=600&q=80');
+  background-size: cover;
+  background-position: center;
+  opacity: 0.12;
+  pointer-events: none;
+}
+
 .status-strip {
   display: flex;
   justify-content: space-between;
   padding: 12px 14px;
   border-bottom: 1px solid var(--line);
   background: rgba(255, 255, 255, 0.55);
+  position: relative;
+  z-index: 2;
 }
+
 .status-item { display: flex; flex-direction: column; gap: 2px; }
 .status-label {
   font-family: var(--font-mono);
@@ -195,8 +213,12 @@ body::before {
   flex-direction: column;
   gap: 16px;
   overflow-y: auto;
+  position: relative;
+  z-index: 2;
 }
+
 .screen-head.compact { gap: 2px; }
+
 .eyebrow {
   font-family: var(--font-mono);
   font-size: 10px;
@@ -204,6 +226,7 @@ body::before {
   text-transform: uppercase;
   color: var(--signal-dim);
 }
+
 .screen-head h1 {
   font-family: var(--font-display);
   font-weight: 700;
@@ -385,6 +408,8 @@ body::before {
 
 .phone-nav {
   display: flex; border-top: 1px solid var(--line); background: rgba(255, 255, 255, 0.4);
+  position: relative;
+  z-index: 2;
 }
 .nav-btn {
   flex: 1; background: transparent; border: none; color: var(--text-muted);
