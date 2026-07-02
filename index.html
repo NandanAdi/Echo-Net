@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Echo-Net — Off-Grid, Never Offline.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="stage">
+
+  <header class="topbar">
+    <div class="wordmark">
+      <span class="wordmark-icon">◎</span>
+      <span class="wordmark-text">ECHO<span class="accent">·</span>NET</span>
+    </div>
+    <div class="mode-switch" role="tablist" aria-label="View switch">
+      <button class="mode-btn is-active" data-mode="app">Trekker App</button>
+      <button class="mode-btn" data-mode="ops">Operator Console</button>
+    </div>
+  </header>
+
+  <div class="mountain-banner">
+    <svg viewBox="0 0 800 120" preserveAspectRatio="none" class="mountain-banner-svg" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0 120 L100 50 L200 95 L320 35 L440 90 L560 25 L680 85 L800 40 L800 120 Z" fill="var(--line)" opacity="0.4"/>
+      <path d="M0 120 L150 70 L280 110 L400 65 L520 100 L640 55 L740 95 L800 70 L800 120 Z" fill="var(--line)" opacity="0.75"/>
+      <path d="M0 120 L80 85 L180 115 L300 80 L460 110 L580 75 L700 105 L800 85 L800 120 Z" fill="var(--line-strong)" opacity="0.6"/>
+      <path d="M100 50 L140 100 M320 35 L360 90 M560 25 L590 80 M680 85 L710 115" stroke="var(--text-muted)" stroke-width="1" opacity="0.2" stroke-linecap="round"/>
+    </svg>
+  </div>
+
+  <section class="view view-app is-active" id="view-app">
+
+    <div class="phone">
+      <div class="phone-notch"></div>
+      <div class="phone-screen">
+
+        <div class="status-strip" id="statusStrip">
+          <div class="status-item">
+            <span class="status-label">CELLULAR</span>
+            <span class="status-value dead">NO SIGNAL</span>
+          </div>
+          <div class="status-item">
+            <span class="status-label">MESH</span>
+            <span class="status-value live" id="meshStatusValue">CONNECTED · 0 NODES</span>
+          </div>
+          <div class="status-item">
+            <span class="status-label">BATT</span>
+            <span class="status-value" id="battValue">86%</span>
+          </div>
+        </div>
+
+        <div class="screen" id="screen-select">
+          <div class="screen-head">
+            <p class="eyebrow">Trailhead Check-in</p>
+            <h1>Pick your trail. Pair your Pod.</h1>
+          </div>
+          <div class="trail-list" id="trailList"></div>
+        </div>
+
+        <div class="screen" id="screen-pairing" hidden>
+          <div class="pairing-wrap">
+            <div class="pod-ring">
+              <div class="pod-core">◈</div>
+            </div>
+            <p class="pairing-status" id="pairingStatus">Searching for Echo-Pod…</p>
+            <p class="pairing-sub" id="pairingSub">Hold pod within 10cm of phone</p>
+          </div>
+        </div>
+
+        <div class="screen" id="screen-dashboard" hidden>
+          <div class="hazard-banner" id="hazardBanner" hidden>
+            <span class="hazard-icon">▲</span>
+            <span class="hazard-text" id="hazardText"></span>
+          </div>
+          <div class="dash-head">
+            <div>
+              <p class="eyebrow" id="dashTrailState">—</p>
+              <h1 id="dashTrailName">—</h1>
+            </div>
+            <div class="elevation-pill" id="dashElevation">— m</div>
+          </div>
+
+          <div class="mesh-mini" id="meshMini">
+            <svg id="meshMiniSvg" viewBox="0 0 320 200" preserveAspectRatio="xMidYMid meet"></svg>
+          </div>
+
+          <div class="metric-row">
+            <div class="metric-card">
+              <span class="metric-label">Nearby Nodes</span>
+              <span class="metric-value" id="metricNodes">0</span>
+            </div>
+            <div class="metric-card">
+              <span class="metric-label">Coverage Radius</span>
+              <span class="metric-value" id="metricRadius">0 km</span>
+            </div>
+            <div class="metric-card">
+              <span class="metric-label">To Basecamp</span>
+              <span class="metric-value" id="metricHops">— hops</span>
+            </div>
+          </div>
+
+          <div class="coord-readout" id="coordReadout">— , —</div>
+        </div>
+
+        <div class="screen" id="screen-chat" hidden>
+          <div class="screen-head compact">
+            <p class="eyebrow">Mesh Messaging</p>
+            <h1>Node Relay</h1>
+          </div>
+          <div class="chat-log" id="chatLog"></div>
+          <div class="chat-input-row">
+            <input type="text" id="chatInput" class="chat-input" placeholder="Message basecamp…" maxlength="80" />
+            <button class="chat-send" id="chatSend">Send</button>
+          </div>
+        </div>
+
+        <div class="screen" id="screen-sos" hidden>
+          <div class="sos-wrap" id="sosWrap">
+            <button class="sos-button" id="sosButton">
+              <span>SOS</span>
+              <small>Hold to broadcast</small>
+            </button>
+            <div class="sos-log" id="sosLog" hidden></div>
+          </div>
+        </div>
+
+        <div class="screen" id="screen-network" hidden>
+          <div class="screen-head compact">
+            <p class="eyebrow">Live Topology</p>
+            <h1>Mesh Network Map</h1>
+          </div>
+          <div class="network-full">
+            <svg id="networkSvg" viewBox="0 0 320 320" preserveAspectRatio="xMidYMid meet"></svg>
+          </div>
+          <div class="network-legend">
+            <span><i class="dot dot-you"></i>You</span>
+            <span><i class="dot dot-node"></i>Trekker Node</span>
+            <span><i class="dot dot-hub"></i>Checkpoint</span>
+            <span><i class="dot dot-base"></i>Basecamp</span>
+          </div>
+        </div>
+
+      </div>
+
+      <nav class="phone-nav" id="phoneNav" hidden>
+        <button class="nav-btn is-active" data-screen="dashboard"><span>◎</span>Trail</button>
+        <button class="nav-btn" data-screen="chat"><span>◇</span>Relay</button>
+        <button class="nav-btn nav-sos" data-screen="sos"><span>!</span>SOS</button>
+        <button class="nav-btn" data-screen="network"><span>◈</span>Mesh</button>
+      </nav>
+    </div>
+
+  </section>
+
+  <section class="view view-ops" id="view-ops">
+    <div class="ops-head">
+      <div>
+        <p class="eyebrow">B2B Fleet Console</p>
+        <h1>Live trekker status across active trails</h1>
+      </div>
+      <div class="ops-summary" id="opsSummary"></div>
+    </div>
+    <div class="ops-table-wrap">
+      <table class="ops-table">
+        <thead>
+          <tr>
+            <th>Node</th><th>Trekker</th><th>Trail</th><th>Status</th><th>Battery</th><th>Last Ping</th><th>Hops to Base</th>
+          </tr>
+        </thead>
+        <tbody id="opsTableBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
